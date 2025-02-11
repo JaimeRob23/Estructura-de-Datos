@@ -5,6 +5,8 @@ import entradasalida.Salida;
 
 public class PrincipalAOrdenado {
     public static void main(String[] args) {
+
+        // PRUEBA COMMIT
         ArregloOrdenado lista=new ArregloOrdenado(6);
         lista.poner("M");
         lista.poner("O");
@@ -14,6 +16,6 @@ public class PrincipalAOrdenado {
         lista.imprimirDes();
         Salida.salidaPorDefecto("\n");
         Salida.salidaPorDefecto("Buscando Z: "+ lista.buscar("Z")+("\n"));
-        Salida.salidaPorDefecto("Buscando S: "+ lista.buscar("Sw")+("\n"));
+        Salida.salidaPorDefecto("Buscando S: "+ lista.buscar("S")+("\n"));
     }
 }
