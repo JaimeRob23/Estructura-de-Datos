@@ -2,84 +2,87 @@ package edlineal;
 
 import entradasalida.Salida;
 
-public class Arreglo  implements VectorFijo{
+public class Arreglo  implements VectorFijo {
     protected int capacidad;
     protected Object datos[];
     protected int indiceSuperior;
     protected Arreglo articulosVenta;
 
-    public Arreglo(int tamanio){
-        this.capacidad=tamanio;
+    public Arreglo(int tamanio) {
+        this.capacidad = tamanio;
         this.datos = new Object[this.capacidad];
         this.indiceSuperior = -1;
     }
 
-    public boolean vacia(){
-        if (indiceSuperior == -1){
+    public boolean vacia() {
+        if (indiceSuperior == -1) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
-    public boolean lleno(){
-        if(indiceSuperior == (capacidad -1)){
+    public boolean lleno() {
+        if (indiceSuperior == (capacidad - 1)) {
             return true;
-        }else{
+        } else {
             return false;
         }
 
     }
 
     public Integer poner(Object valor) {
-        if(lleno() == false){
-            indiceSuperior= indiceSuperior + 1;
-            datos[indiceSuperior]=valor;
+        if (lleno() == false) {
+            indiceSuperior = indiceSuperior + 1;
+            datos[indiceSuperior] = valor;
             return indiceSuperior;
-        }else{
+        } else {
             return -1;
         }
 
     }
 
     @Override
-    public Object buscar(Object valor){
+    public Object buscar(Object valor) {
         int recorredor = 0;
-        while((recorredor<=indiceSuperior)&&(valor.toString().equalsIgnoreCase(datos[recorredor].toString())==false)){
-            recorredor=recorredor+1;
+        while ((recorredor <= indiceSuperior) && (valor.toString().equalsIgnoreCase(datos[recorredor].toString()) == false)) {
+            recorredor = recorredor + 1;
             //el to string es para convertir en cadenas
             //el equals ignore es para que compare una cadena con la otra sin mayusculas y eso
         }
-        if(recorredor>indiceSuperior){
+        if (recorredor > indiceSuperior) {
             return -1;
-        }else{
+        } else {
             return recorredor;
         }
     }
 
     @Override
-    public void imprimir(){
+    public void imprimir() {
         int posicion;
-        for(posicion=0; posicion<=this.indiceSuperior; posicion++){
-            Salida.salidaPorDefecto(datos[posicion]+"\n");
+        for (posicion = 0; posicion <= this.indiceSuperior; posicion++) {
+            Salida.salidaPorDefecto(datos[posicion] + "\n");
         }
 
     }
-    public void imprimirDes(){
+
+    public void imprimirDes() {
         int posicion;
-        for(posicion= indiceSuperior; posicion>=0; posicion--){
-            Salida.salidaPorDefecto(datos[posicion]+"\n");
+        for (posicion = indiceSuperior; posicion >= 0; posicion--) {
+            Salida.salidaPorDefecto(datos[posicion] + "\n");
         }
     }
-    public Object quitar(){
-        if(vacia()==false){
-           Object datoExtraido=datos[indiceSuperior];
-           indiceSuperior= indiceSuperior - 1;
-           return datoExtraido;
-        }else{
+
+    public Object quitar() {
+        if (vacia() == false) {
+            Object datoExtraido = datos[indiceSuperior];
+            indiceSuperior = indiceSuperior - 1;
+            return datoExtraido;
+        } else {
             return null;
         }
     }
+
     public Arreglo clonar() {
         Arreglo clon = new Arreglo(capacidad);
 
@@ -94,11 +97,25 @@ public class Arreglo  implements VectorFijo{
 
     @Override
     public Object verUltimo() {
-        if (vacia()==false){
+        if (vacia() == false) {
             return datos[indiceSuperior];
-        }else{
+        } else {
             return null;
         }
+    }
+
+    @Override
+    public void invertir() {
+        for (int recorredor=0; recorredor<=indiceSuperior/2;recorredor++){
+            //se divide entre 2 ya que solo iteraremos hasta la mitad de la lista
+            Object temporal=datos[recorredor];
+            //se hace una variable temporal
+            datos[recorredor]=datos[indiceSuperior  - recorredor];
+            //el dato en la posicion 0 se guarda en el ultimo dato que es el indice superior
+            datos[indiceSuperior  - recorredor]= temporal;
+            //el ultimo dato osea el indice superior se guarda en la posicion 0
+        }
+
     }
 
     public void vaciar() {

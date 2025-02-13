@@ -15,4 +15,5 @@ public interface ListaDatos {
     public Arreglo clonar();
 
     public Object verUltimo();
+    public void invertir();
 }
