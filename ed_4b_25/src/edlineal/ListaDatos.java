@@ -13,7 +13,10 @@ public interface ListaDatos {
     public Arreglo buscarValores(Object valor);
     public void vaciar();
     public Arreglo clonar();
-
+    public boolean poner(int indice, Object info);
     public Object verUltimo();
     public void invertir();
+    boolean validaPosicion(int indice);
+    public boolean substituir(ListaDatos lista2);
+    //public boolean modificarLista(ListaDatos lista2, ListaDatos lista2Nuevos);
 }

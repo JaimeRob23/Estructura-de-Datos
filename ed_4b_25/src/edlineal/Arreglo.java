@@ -146,13 +146,20 @@ public class Arreglo  implements VectorFijo {
     }
 
     //checar rangos validos
-    private boolean validaPosicion(int indice){
+    @Override
+    public boolean validaPosicion(int indice){
         if(indice>=0 && indice<=indiceSuperior){
             return true;
         }else{
             return false;
         }
     }
+
+    @Override
+    public boolean substituir(ListaDatos lista2) {
+        return false;
+    }
+
     //Este metodo obtiene un objeto del arreglo indicado por la posicion del indice
     public Object obtener(int indice) {
         if(validaPosicion(indice)==true){
@@ -220,15 +227,13 @@ public class Arreglo  implements VectorFijo {
 
     }
 
-
-
     public boolean modificar(int indice, Object valor){
         if (validaPosicion(indice)==true){
-            return false;
+            datos[indice]=valor;
+            return true;
         }
-        datos[indice]=valor;
 
-        return true;
+        return false;
     }
 
     public boolean modificarLista(Arreglo indicesBusqueda, Arreglo valoresNuevos) {
@@ -261,6 +266,74 @@ public class Arreglo  implements VectorFijo {
         }
         return posiciones;
     }
+    @Override
+    public boolean poner(int indice, Object info){
+        if((validaPosicion(indice)==true)&&(indiceSuperior>=indice)){
+            datos[indice]=info;
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    public boolean modificarLista1(ListaDatos lista2, ListaDatos lista2Nuevos) {
+        if((validarLista(lista2)==true)&&(validarLista(lista2Nuevos)==true)){
+            Arreglo arregLista2=convertirAreglo(lista2);
+            Arreglo arregloLista2Nuevos=convertirAreglo(lista2Nuevos);
+            if (arregLista2.cantidad() == arregloLista2Nuevos.cantidad()) {
+                int sustituir = 0;
+
+
+                for (int recorredor = 0; recorredor < arregLista2.cantidad(); recorredor++) {
+
+                    int datoB = (int) buscar(arregLista2.datos[recorredor]);
+
+                    if (datoB > 0) {
+                        datos[datoB] = arregloLista2Nuevos.obtener(recorredor);
+                        sustituir++;
+                    }
+                }
+                if (sustituir>0){
+                    return true;
+                }else {
+                    return false;
+                }
+
+
+            }return false;
+
+
+
+        }return false;
+
+    }
+    public Arreglo convertirAreglo(ListaDatos lista){
+        Arreglo arregloNuevo=(Arreglo) lista;
+        return arregloNuevo;
+    }
+
+    public Arreglo subLista(ArregloNumerico listaIndices) {
+        if (vacia() || listaIndices.vacia()) {
+            return null;
+        }
+
+        Arreglo arregloNuevo = new Arreglo(listaIndices.cantidad());
+
+        for (int recorredorIndices = 0; recorredorIndices < listaIndices.cantidad(); recorredorIndices++) {
+            double indiceRecuperado = (double) listaIndices.datos[recorredorIndices];
+            int indice = (int) indiceRecuperado;
+
+            if (indice >= 0 && indice < cantidad()) {
+                Object valorRecuperado = datos[indice];
+                arregloNuevo.poner(valorRecuperado);
+            }
+        }
+
+        return arregloNuevo;
+    }
+
+
+
 
 
 

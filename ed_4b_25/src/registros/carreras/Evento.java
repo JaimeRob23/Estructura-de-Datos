@@ -3,9 +3,9 @@ package registros.carreras;
 public class Evento {
     protected String nombre;
     protected String lugar;
-    protected String anioFundacion;
+    protected int anioFundacion;
 
-    public Evento(String nombre, String lugar, String anioFundacion) {
+    public Evento(String nombre, String lugar, int anioFundacion) {
         this.nombre = nombre;
         this.lugar = lugar;
         this.anioFundacion = anioFundacion;
@@ -27,11 +27,11 @@ public class Evento {
         this.lugar = lugar;
     }
 
-    public String getAnioFundacion() {
+    public int getAnioFundacion() {
         return anioFundacion;
     }
 
-    public void setAnioFundacion(String anioFundacion) {
+    public void setAnioFundacion(int anioFundacion) {
         this.anioFundacion = anioFundacion;
     }
 

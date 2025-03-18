@@ -3,6 +3,8 @@ package edlineal;
 import tools.Enumerador.TipoOrden;
 import tools.comunesBase.ManipuladorObjetos;
 
+import java.util.Random;
+
 public class ArregloOrdenado extends Arreglo{
 
 
@@ -57,11 +59,25 @@ public class ArregloOrdenado extends Arreglo{
              return null;
          }
     }
+    public ListaDatos arregloDesordenado() {
+        Arreglo arregloDes = new Arreglo(capacidad);
 
-    @Override
-    public boolean validarLista(Object lista) {
-        return super.validarLista(lista);
+        // Copiar los elementos al nuevo arreglo
+        for (int recorredor = 0; recorredor <= indiceSuperior; recorredor++) {
+            arregloDes.poner(this.datos[recorredor]);
+        }
+        Random random = new Random();
+        for (int recorredor = 0; recorredor < indiceSuperior; recorredor++) {
+            int indiceRandom = recorredor + random.nextInt(this.indiceSuperior - recorredor); // Índice aleatorio entre recorredor e indiceSuperior
+            // Intercambiar datos[recorredor] con datos[indiceRandom]
+            Object temp = arregloDes.datos[recorredor];
+            arregloDes.datos[recorredor] = arregloDes.datos[indiceRandom];
+            arregloDes.datos[indiceRandom] = temp;
+        }
+
+        return arregloDes;
     }
+
 
     public boolean validarPosicion(int posicion){
         if (posicion<0){
@@ -97,15 +113,23 @@ public class ArregloOrdenado extends Arreglo{
     }
 
 
-    public Arreglo convertirAreglo(ListaDatos lista){
-        Arreglo arregloNuevo=(Arreglo) lista;
+    public ArregloOrdenado convertirAreglo(ListaDatos lista){
+        ArregloOrdenado arregloNuevo=(ArregloOrdenado) lista;
         return arregloNuevo;
     }
 
 
+    public boolean validarListaOrdenada(Object lista) {
+        if (lista instanceof ArregloOrdenado){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     public boolean agregarLista(ListaDatos lista2){
-        Arreglo arregloNuevo=convertirAreglo(lista2);
-        if (validarLista(arregloNuevo)==true){
+        ArregloOrdenado arregloNuevo=convertirAreglo(lista2);
+        if ((validarListaOrdenada(arregloNuevo)==true)&& (lleno()== false)){
             for(int recorredor=0; recorredor<=arregloNuevo.indiceSuperior; recorredor++){
                 poner(arregloNuevo.datos[recorredor]);
             }
@@ -117,7 +141,16 @@ public class ArregloOrdenado extends Arreglo{
 
     @Override
     public boolean modificar(int indice, Object valor) {
-        return super.modificar(indice, valor);
+        if (validarPosicion(indice)==true){
+            for(int modificacion=indice; (modificacion<=indiceSuperior-1);modificacion++){
+                datos[modificacion]=datos[modificacion+1];
+            }
+            indiceSuperior=indiceSuperior-1;
+            poner(valor);
+            return true;
+        }else{
+            return false;
+        }
     }
 
     @Override
@@ -130,5 +163,95 @@ public class ArregloOrdenado extends Arreglo{
             //el orden es decremental y se cambiara por incremental
             orden.setOrden(1);
         }
+    }
+
+    public boolean esSubLista(ListaDatos lista2){
+        //primero validamos
+        if(validarListaOrdenada(lista2)==true) {
+            ArregloOrdenado arreglo = convertirAreglo(lista2);
+            for (int recorredor = 0; recorredor <= arreglo.indiceSuperior; recorredor++) {
+                int resultadoBusqueda = (int) buscar(arreglo.datos[recorredor]);
+                if (resultadoBusqueda < 0) {
+                    return false;
+                }
+
+            }
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public boolean retenerLista(ListaDatos lista2){
+        if(validarLista(lista2)==true){
+            ArregloOrdenado listaNueva= convertirAreglo(lista2);
+            if (listaNueva.cantidad()>capacidad){
+                return false;
+            }else{
+                vaciar();
+                for(int recorredor=0; recorredor<=listaNueva.cantidad()-1; recorredor++){
+                    poner(listaNueva.datos[recorredor]);
+                }
+            }
+            return true;
+        }return false;
+    }
+
+    public boolean substituir(ListaDatos lista2){
+            if(validarLista(lista2)==true){
+                ArregloOrdenado listaNueva=convertirAreglo(lista2);
+                if(listaNueva.cantidad()>capacidad){
+                    return false;
+                }else{
+                    //Verificar que se respete el orden
+                    if(listaNueva.orden.getOrden()==orden.getOrden()){
+                        vaciar();
+                        for(int recorredor=0;recorredor<=listaNueva.cantidad()-1;recorredor++){
+                            poner(listaNueva.datos[recorredor]);
+                        }
+                        return true;
+                    }else{
+                        return false;
+                    }
+                }
+
+
+            }return false;
+    }
+
+    @Override
+    public boolean validaPosicion(int indice) {
+        return super.validaPosicion(indice);
+    }
+
+
+
+
+    public boolean poner(int indice, Object info) {
+        // Validar si el índice está dentro del rango permitido y que el arreglo no esté lleno
+        if ((validaPosicion(indice)==false) || lleno()) {
+            return false;
+        }
+        if (orden == TipoOrden.INC) {
+            // Verificar que el valor a insertar sea mayor o igual que el anterior y menor o igual que el siguiente
+            if (( ManipuladorObjetos.compararObjetos(datos[indice - 1], info) > 0) ||
+                    (ManipuladorObjetos.compararObjetos(info, datos[indice]) > 0)) {
+                return false;
+            }
+        } else if (orden == TipoOrden.DEC) {
+            // Verificar que el valor a insertar sea menor o igual que el anterior y mayor o igual que el siguiente
+            if ((ManipuladorObjetos.compararObjetos(datos[indice - 1], info) < 0) ||
+                    (ManipuladorObjetos.compararObjetos(info, datos[indice]) < 0)) {
+                return false;
+            }
+        }
+        // Mover los elementos a la derecha para hacer espacio
+        for (int recorredor = indiceSuperior; recorredor >= indice; recorredor--) {
+            datos[recorredor + 1] = datos[recorredor];
+        }
+        // Insertar el nuevo valor en la posición
+        datos[indice] = info;
+        indiceSuperior++;
+        return true;
     }
 }
