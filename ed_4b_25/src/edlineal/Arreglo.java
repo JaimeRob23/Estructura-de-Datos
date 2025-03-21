@@ -160,6 +160,15 @@ public class Arreglo  implements VectorFijo {
         return false;
     }
 
+    @Override
+    public Object verFinal() {
+        if(vacia()){
+            return null;
+        }else{
+            return datos[indiceSuperior];
+        }
+    }
+
     //Este metodo obtiene un objeto del arreglo indicado por la posicion del indice
     public Object obtener(int indice) {
         if(validaPosicion(indice)==true){
@@ -331,6 +340,28 @@ public class Arreglo  implements VectorFijo {
 
         return arregloNuevo;
     }
+
+    public boolean recibirBuffer(double[] buffer2){
+        if(capacidad()<buffer2.length){
+            return false;
+        }else{
+            for (int recorredorBuffer=0; recorredorBuffer<=buffer2.length;recorredorBuffer++){
+                datos[recorredorBuffer]=buffer2[recorredorBuffer];
+            }
+            return true;
+        }
+
+    }
+
+    public Object[] leerArreglo(){
+        Object[] copiaParaBuffer=new Object[cantidad()];
+        for(int recorredorDatos=0;recorredorDatos<cantidad();recorredorDatos++){
+            copiaParaBuffer[recorredorDatos]=datos[recorredorDatos];
+        }return copiaParaBuffer;
+    }
+
+    public void
+
 
 
 

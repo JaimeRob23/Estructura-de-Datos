@@ -286,10 +286,16 @@ public class ArregloNumerico extends Arreglo{
         return true;
     }
 
-
-
     @Override
     public Arreglo subLista(ArregloNumerico listaIndices) {
         return super.subLista(listaIndices);
     }
+
+    @Override
+    public boolean recibirBuffer(double[] buffer2) {
+        return super.recibirBuffer(buffer2);
+    }
+
+
+
 }

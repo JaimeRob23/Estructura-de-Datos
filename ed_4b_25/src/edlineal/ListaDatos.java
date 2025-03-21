@@ -19,4 +19,5 @@ public interface ListaDatos {
     boolean validaPosicion(int indice);
     public boolean substituir(ListaDatos lista2);
     //public boolean modificarLista(ListaDatos lista2, ListaDatos lista2Nuevos);
+    public Object verFinal();
 }
