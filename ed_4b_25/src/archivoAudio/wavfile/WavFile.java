@@ -79,7 +79,7 @@ public class WavFile
 	{
 		// Instantiate new Wavfile and initialise
 		WavFile wavFile = new WavFile();
-		wavFile.file = file;
+		wavFile.file = file ;
 		wavFile.numChannels = numChannels;
 		wavFile.numFrames = numFrames;
 		wavFile.sampleRate = sampleRate;
