@@ -296,6 +296,8 @@ public class ArregloNumerico extends Arreglo{
         return super.recibirBuffer(buffer2);
     }
 
-
-
+    @Override
+    public void preEnfasis() {
+        super.preEnfasis();
+    }
 }

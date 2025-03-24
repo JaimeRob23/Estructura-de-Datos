@@ -8,7 +8,6 @@
 
 // Version 1.0
 package archivoAudio.wavfile;
-import audio.wavfile.WavFileException;
 
 import java.io.*;
 

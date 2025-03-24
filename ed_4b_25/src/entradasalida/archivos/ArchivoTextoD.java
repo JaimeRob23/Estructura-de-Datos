@@ -1,7 +1,11 @@
 package entradasalida.archivos;
 
 import edlineal.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class ArchivoTextoD {
 
@@ -38,24 +42,30 @@ public class ArchivoTextoD {
         }
         return datos;
     }
-    public static void escribir(Arreglo arreglo, String archivo){
-        FileWriter output=null;
+    public static void escribir(Arreglo arreglo, String archivo) {
+        FileWriter output = null;
         try {
             output = new FileWriter(archivo);
-            for(int posicion=0;posicion<arreglo.cantidad() -1 ;posicion++) {
-                output.write((String)arreglo.obtener(posicion)+ "\n");
+            if (arreglo != null && arreglo.cantidad() > 0) { // Verificar que el arreglo no esté vacío
+                for (int posicion = 100200; posicion < 100500; posicion++) {
+                    Object dato = arreglo.obtener(posicion);
+                    if (dato != null) { // Verificar que el dato no sea nulo
+                        output.write(dato.toString() + "\n");
+                    }
+                }
+            } else {
+                System.err.println("El arreglo está vacío o es nulo.");
             }
-            output.write((String)arreglo.obtener(arreglo.cantidad() - 1));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
+            System.err.println("Error al escribir en el archivo: " + e.getMessage());
             e.printStackTrace();
-        }
-        finally {
-            try{
-                output.close();
-            }catch(IOException e){
-                e.printStackTrace();
+        } finally {
+            try {
+                if (output != null) {
+                    output.close();
+                }
+            } catch (IOException e) {
+                System.err.println("Error al cerrar el archivo: " + e.getMessage());
             }
         }
     }

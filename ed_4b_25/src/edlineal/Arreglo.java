@@ -341,31 +341,42 @@ public class Arreglo  implements VectorFijo {
         return arregloNuevo;
     }
 
-    public boolean recibirBuffer(double[] buffer2){
-        if(capacidad()<buffer2.length){
+    public boolean recibirBuffer(double[] buffer2) {
+        if (capacidad < buffer2.length) {//verificamos dimensiones
             return false;
-        }else{
-            for (int recorredorBuffer=0; recorredorBuffer<=buffer2.length;recorredorBuffer++){
-                datos[recorredorBuffer]=buffer2[recorredorBuffer];
+        } else {
+            // Si hay espacio suficiente, copiamos los datos de buffer2 en datos
+            for (int recorredorBuffer = 0; recorredorBuffer < buffer2.length; recorredorBuffer++) {
+                datos[recorredorBuffer] =buffer2[recorredorBuffer];  // Asignación directa de 'double' a 'double'
             }
-            return true;
+            // Actualizamos indiceSuperior
+            this.indiceSuperior = buffer2.length - 1;
+            return true;  // Devolvemos true si salio bien
         }
-
     }
 
     public Object[] leerArreglo(){
-        Object[] copiaParaBuffer=new Object[cantidad()];
-        for(int recorredorDatos=0;recorredorDatos<cantidad();recorredorDatos++){
-            copiaParaBuffer[recorredorDatos]=datos[recorredorDatos];
-        }return copiaParaBuffer;
+        if(vacia()==true){//Se valida que no este vacia
+            return null;
+        }else{
+            Object[] copiaParaBuffer=new Object[cantidad()];//Se crea la nueva copia
+            for(int recorredorDatos=0;recorredorDatos<cantidad();recorredorDatos++){
+                copiaParaBuffer[recorredorDatos]=datos[recorredorDatos];//Se pasan los datos
+            }return copiaParaBuffer;//Se retorna la lista
+        }
     }
 
-    public void
+    public void preEnfasis(){
+        double valorAlpha=0.97;//Se genera el valor aplha
+        for (int recorredor = 1; recorredor < cantidad(); recorredor++) {
+            double ayudenmePorFavor=(double) datos[recorredor-1];
+            datos[recorredor] = ((double) datos[recorredor] - (valorAlpha*ayudenmePorFavor ));//Se hacen las operaciones
+            //Se guarda el nueva dato en nuestra lista
+        }
 
 
 
-
-
+    }
 
 
 
